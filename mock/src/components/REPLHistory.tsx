@@ -9,22 +9,20 @@ export function REPLHistory(props: REPLHistoryProps) {
   return (
     <div>
       {props.mode ? (
-        <h1>
+        <p>
           {props.inputHistory.map((command) => (
             <p>{command[0]}</p>
           ))}
           ;
-        </h1>
+        </p>
       ) : (
-        <h1>
+        <p>
           {props.inputHistory.map((command) => (
             <p>
-              input: {command[0]}
-              output: {command[1]}
+              input: {command[0]} <br></br> output: {command[1]}
             </p>
           ))}
-          ;
-        </h1>
+        </p>
       )}
     </div>
   );
