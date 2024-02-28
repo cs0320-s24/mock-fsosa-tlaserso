@@ -5,13 +5,23 @@ import { REPLHistory } from "./REPLHistory";
 
 interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
-  inputHistory: string[];
-  setInputHistory: Dispatch<SetStateAction<string[]>>;
-  outputHistory: string[];
-  setOutputHistory: Dispatch<SetStateAction<string[]>>;
+  inputHistory: string[][];
+  setInputHistory: Dispatch<SetStateAction<string[][]>>;
   mode: boolean;
   setMode: Dispatch<SetStateAction<boolean>>;
+  commandDict: Map<string, REPLFunction>;
 }
+/**
+ * A command-processor function for our REPL. The function returns a string, which is the value to print to history when
+ * the command is done executing.
+ *
+ * The arguments passed in the input (which need not be named "args") should
+ * *NOT* contain the command-name prefix.
+ */
+export interface REPLFunction {
+  (args: Array<string>): string;
+}
+
 // You can use a custom interface or explicit fields or both! An alternative to the current function header might be:
 // REPLInput(history: string[], setHistory: Dispatch<SetStateAction<string[]>>)
 export function REPLInput(props: REPLInputProps) {
@@ -22,21 +32,18 @@ export function REPLInput(props: REPLInputProps) {
   // TODO WITH TA: build a handleSubmit function called in button onClick
   function handleClick() {
     setCommandStringArr(commandString.split(" "));
-    switch (commandStringArr[0]) {
-      case "mode": {
-        if (props.mode) {
-          props.setMode(false);
-        } else {
-          props.setMode(true);
-        }
-        props.setOutputHistory([
-          ...props.outputHistory,
-          "mode changed successfully",
-        ]);
-        break;
-      }
+    var toCheck = props.commandDict.get(commandStringArr[0]);
+    if (typeof toCheck !== "undefined") {
+      props.setInputHistory([
+        ...props.inputHistory,
+        [commandString, toCheck(commandStringArr)],
+      ]);
+    } else {
+      props.setInputHistory([
+        ...props.inputHistory,
+        [commandString, "Sorry, command not recognized"],
+      ]);
     }
-    props.setInputHistory([...props.inputHistory, commandString]);
 
     setCommandString("");
     setCommandStringArr([]);

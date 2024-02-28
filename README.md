@@ -24,3 +24,7 @@ User Story 4:
 Write handler for search that uses the loaded file path and outputs
 User story 5:
 Copy log in button. (done)
+User Story 6:
+use the interface to make it so that commands can be added
+user story 7:
+comment code and have a clear readme.
