@@ -10,6 +10,7 @@ interface REPLInputProps {
   mode: boolean;
   setMode: Dispatch<SetStateAction<boolean>>;
   commandDict: Map<string, REPLFunction>;
+  setCommandDict: Dispatch<SetStateAction<Map<string, REPLFunction>>>;
 }
 /**
  * A command-processor function for our REPL. The function returns a string, which is the value to print to history when
@@ -28,15 +29,25 @@ export function REPLInput(props: REPLInputProps) {
   // Remember: let React manage state in your webapp.
   // Manages the contents of the input box
   const [commandString, setCommandString] = useState<string>("");
-  const [commandStringArr, setCommandStringArr] = useState<string[]>([]);
+  let Mode: REPLFunction;
+  Mode = function (args: Array<string>): string {
+    if (props.mode) {
+      props.setMode(false);
+      return "changed to verbose";
+    } else {
+      props.setMode(true);
+      return "changed to brief";
+    }
+  };
+  props.setCommandDict(props.commandDict.set("Mode", Mode));
   // TODO WITH TA: build a handleSubmit function called in button onClick
   function handleClick() {
-    setCommandStringArr(commandString.split(" "));
-    var toCheck = props.commandDict.get(commandStringArr[0]);
+    let commandarray = commandString.split(" ");
+    var toCheck = props.commandDict.get(commandarray[0]);
     if (typeof toCheck !== "undefined") {
       props.setInputHistory([
         ...props.inputHistory,
-        [commandString, toCheck(commandStringArr)],
+        [commandString, toCheck(commandarray)],
       ]);
     } else {
       props.setInputHistory([
@@ -46,7 +57,6 @@ export function REPLInput(props: REPLInputProps) {
     }
 
     setCommandString("");
-    setCommandStringArr([]);
   }
   // TODO: Once it increments, try to make it push commands... Note that you can use the `...` spread syntax to copy what was there before
   // add to it with new commands.

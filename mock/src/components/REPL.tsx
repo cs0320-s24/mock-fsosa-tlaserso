@@ -34,6 +34,7 @@ export default function REPL() {
         mode={mode}
         setMode={setMode}
         commandDict={commandDict}
+        setCommandDict={setCommandDict}
       />
     </div>
   );
