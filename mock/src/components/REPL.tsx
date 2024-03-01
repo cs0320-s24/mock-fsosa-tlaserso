@@ -17,8 +17,8 @@ export default function REPL() {
   const [inputHistory, setInputHistory] = useState<
     Array<Array<string | string[][]>>
   >([]);
-  // shared state for mode command, false=brief mode, true=verbose
-  const [mode, setMode] = useState<boolean>(false);
+  // shared state for mode command, true=brief mode, falso=verbose
+  const [brief, setBrief] = useState<boolean>(false);
   const [commandDict, setCommandDict] = useState<Map<string, REPLFunction>>(
     new Map()
   );
@@ -28,13 +28,13 @@ export default function REPL() {
       {/*This is where your REPLHistory might go... You also may choose to add it within your REPLInput 
       component or somewhere else depending on your component organization. What are the pros and cons of each? */}
       {/* TODO: Update your REPLHistory and REPLInput to take in new shared state as props */}
-      <REPLHistory inputHistory={inputHistory} mode={mode} />
+      <REPLHistory inputHistory={inputHistory} brief={brief} />
       <hr></hr>
       <REPLInput
         inputHistory={inputHistory}
         setInputHistory={setInputHistory}
-        mode={mode}
-        setMode={setMode}
+        brief={brief}
+        setBrief={setBrief}
         commandDict={commandDict}
         setCommandDict={setCommandDict}
       />
