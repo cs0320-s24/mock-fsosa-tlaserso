@@ -2,7 +2,7 @@ import "../styles/main.css";
 
 interface REPLHistoryProps {
   // TODO: Fill with some shared state tracking all the pushed commands
-  inputHistory: String[][];
+  inputHistory: Array<Array<string | string[][]>>;
   mode: boolean;
 }
 export function REPLHistory(props: REPLHistoryProps) {
@@ -11,9 +11,8 @@ export function REPLHistory(props: REPLHistoryProps) {
       {props.mode ? (
         <p>
           {props.inputHistory.map((command) => (
-            <p>{command[0]}</p>
+            <p>{command[1]}</p>
           ))}
-          ;
         </p>
       ) : (
         <p>

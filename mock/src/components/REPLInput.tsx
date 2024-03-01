@@ -2,11 +2,13 @@ import "../styles/main.css";
 import { Dispatch, SetStateAction, useState } from "react";
 import { ControlledInput } from "./ControlledInput";
 import { REPLHistory } from "./REPLHistory";
+import { MockedSearch, MockedView } from "./mockedJson";
+import path from "path";
 
 interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
-  inputHistory: string[][];
-  setInputHistory: Dispatch<SetStateAction<string[][]>>;
+  inputHistory: Array<Array<string | string[][]>>;
+  setInputHistory: Dispatch<SetStateAction<Array<Array<string | string[][]>>>>;
   mode: boolean;
   setMode: Dispatch<SetStateAction<boolean>>;
   commandDict: Map<string, REPLFunction>;
@@ -20,7 +22,7 @@ interface REPLInputProps {
  * *NOT* contain the command-name prefix.
  */
 export interface REPLFunction {
-  (args: Array<string>): string;
+  (args: Array<string>): string | string[][];
 }
 
 // You can use a custom interface or explicit fields or both! An alternative to the current function header might be:
@@ -29,8 +31,12 @@ export function REPLInput(props: REPLInputProps) {
   // Remember: let React manage state in your webapp.
   // Manages the contents of the input box
   const [commandString, setCommandString] = useState<string>("");
+  const [pathString, setPathString] = useState<string>("");
   let Mode: REPLFunction;
   Mode = function (args: Array<string>): string {
+    if (args.length > 1) {
+      return "wrong number of args (mode takes no input)";
+    }
     if (props.mode) {
       props.setMode(false);
       return "changed to verbose";
@@ -39,7 +45,35 @@ export function REPLInput(props: REPLInputProps) {
       return "changed to brief";
     }
   };
+  let Load_File: REPLFunction;
+  Load_File = function (args: Array<string>): string {
+    if (args.length == 2) {
+      setPathString(args[1]);
+      return "Path changed to ".concat(args[1]);
+    } else {
+      return "wrong number of args.  Load_File only takes the filepath";
+    }
+  };
+  let View: REPLFunction;
+  View = function (args: Array<string>): string[][] | string {
+    if (args.length == 1) {
+      return MockedView(pathString);
+    } else {
+      return "Sorry, wrong number of args.  View takes no args.";
+    }
+  };
+  let Search: REPLFunction;
+  Search = function (args: Array<string>): string[][] | string {
+    if (args.length == 3) {
+      return MockedSearch(pathString, args);
+    } else {
+      return "Sorry, wrong number of args.  Search takes <column> <value> args.";
+    }
+  };
   props.setCommandDict(props.commandDict.set("Mode", Mode));
+  props.setCommandDict(props.commandDict.set("Load_File", Load_File));
+  props.setCommandDict(props.commandDict.set("View", View));
+  props.setCommandDict(props.commandDict.set("Search", Search));
   // TODO WITH TA: build a handleSubmit function called in button onClick
   function handleClick() {
     let commandarray = commandString.split(" ");
