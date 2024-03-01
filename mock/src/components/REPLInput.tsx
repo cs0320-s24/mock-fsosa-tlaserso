@@ -71,8 +71,10 @@ export function REPLInput(props: REPLInputProps) {
    */
   let View: REPLFunction;
   View = function (args: Array<string>): string[][] | string {
-    if (args.length == 1) {
+    if (args.length == 1 && pathString != "") {
       return MockedView(pathString);
+    } else if (pathString == "") {
+      return "Sorry, no file has been loaded";
     } else {
       return "Sorry, wrong number of args.  View takes no args.";
     }
@@ -82,8 +84,10 @@ export function REPLInput(props: REPLInputProps) {
    */
   let Search: REPLFunction;
   Search = function (args: Array<string>): string[][] | string {
-    if (args.length == 3) {
+    if (args.length == 3 && pathString != "") {
       return MockedSearch(pathString, args);
+    } else if (pathString == "") {
+      return "Sorry, no file has been loaded";
     } else {
       return "Sorry, wrong number of args.  Search takes <column> <value> args.";
     }

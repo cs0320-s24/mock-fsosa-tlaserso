@@ -4,6 +4,7 @@
  */
 let DataDict: Map<string, string[][]> = new Map();
 const exampleCSV1 = [
+  ["Header1", "Header2", "Header3", "Header4", "Header5"],
   ["1", "2", "3", "4", "5"],
   ["The", "song", "remains", "the", "same."],
 ];
@@ -46,13 +47,13 @@ export function MockedSearch(
   }
   if (path == "data/exampleCSV1") {
     if (args[1] == "2" && args[2] == "song") {
-      return [Data[1]];
+      return [Data[2]];
     }
-    if (args[1] == "second" && args[2] == "song") {
-      return [Data[1]];
+    if (args[1] == "Header2" && args[2] == "song") {
+      return [Data[2]];
     }
     if (args[1] == "3" && args[2] == "3") {
-      return [Data[0]];
+      return [Data[1]];
     }
   }
   if (path == "data/exampleCSV2") {
@@ -66,5 +67,5 @@ export function MockedSearch(
       return [Data[1], Data[2]];
     }
   }
-  return [["Sorry, search term not found in input column"]];
+  return "Sorry, search term not found in input column";
 }
