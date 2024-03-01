@@ -18,7 +18,7 @@ export default function REPL() {
     Array<Array<string | string[][]>>
   >([]);
   // shared state for mode command, true=brief mode, falso=verbose
-  const [brief, setBrief] = useState<boolean>(false);
+  const [brief, setBrief] = useState<boolean>(true);
   const [commandDict, setCommandDict] = useState<Map<string, REPLFunction>>(
     new Map()
   );

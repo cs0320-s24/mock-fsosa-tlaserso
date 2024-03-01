@@ -16,11 +16,10 @@ interface REPLInputProps {
   setCommandDict: Dispatch<SetStateAction<Map<string, REPLFunction>>>;
 }
 /**
- * A command-processor function for our REPL. The function returns a string, which is the value to print to history when
+ * A command-processor function for our REPL. The function returns a string or array of strings, which is the value to print to history when
  * the command is done executing.
  *
  * The arguments passed in the input (which need not be named "args") should
- * *NOT* contain the command-name prefix.
  */
 export interface REPLFunction {
   (args: Array<string>): string | string[][];
@@ -43,7 +42,7 @@ export function REPLInput(props: REPLInputProps) {
    * This is an example of an implementing function.  This one is mode.
    */
   Mode = function (args: Array<string>): string {
-    if (args.length > 1) {
+    if (args.length > 0) {
       return "wrong number of args (mode takes no input)";
     }
     if (props.brief) {
@@ -59,9 +58,9 @@ export function REPLInput(props: REPLInputProps) {
    * This is the implementation of the load file function.  For now, it just sets a saved string to be the input path.
    */
   Load_File = function (args: Array<string>): string {
-    if (args.length == 2) {
-      setPathString(args[1]);
-      return "Path changed to ".concat(args[1]);
+    if (args.length == 1) {
+      setPathString(args[0]);
+      return "Path changed to ".concat(args[0]);
     } else {
       return "wrong number of args.  Load_File only takes the filepath";
     }
@@ -71,7 +70,7 @@ export function REPLInput(props: REPLInputProps) {
    */
   let View: REPLFunction;
   View = function (args: Array<string>): string[][] | string {
-    if (args.length == 1 && pathString != "") {
+    if (args.length == 0 && pathString != "") {
       return MockedView(pathString);
     } else if (pathString == "") {
       return "Sorry, no file has been loaded";
@@ -84,7 +83,7 @@ export function REPLInput(props: REPLInputProps) {
    */
   let Search: REPLFunction;
   Search = function (args: Array<string>): string[][] | string {
-    if (args.length == 3 && pathString != "") {
+    if (args.length == 2 && pathString != "") {
       return MockedSearch(pathString, args);
     } else if (pathString == "") {
       return "Sorry, no file has been loaded";
@@ -105,6 +104,7 @@ export function REPLInput(props: REPLInputProps) {
     let commandarray = commandString.split(" ");
     var toCheck = props.commandDict.get(commandarray[0]);
     if (typeof toCheck !== "undefined") {
+      commandarray = commandarray.slice(1);
       props.setInputHistory([
         ...props.inputHistory,
         [commandString, toCheck(commandarray)],

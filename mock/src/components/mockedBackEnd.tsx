@@ -46,24 +46,24 @@ export function MockedSearch(
     return "Path not accepted";
   }
   if (path == "data/exampleCSV1") {
-    if (args[1] == "2" && args[2] == "song") {
+    if (args[0] == "2" && args[1] == "song") {
       return [Data[2]];
     }
-    if (args[1] == "Header2" && args[2] == "song") {
+    if (args[0] == "Header2" && args[1] == "song") {
       return [Data[2]];
     }
-    if (args[1] == "3" && args[2] == "3") {
+    if (args[0] == "3" && args[1] == "3") {
       return [Data[1]];
     }
   }
   if (path == "data/exampleCSV2") {
-    if (args[1] == "2" && args[2] == "Data2") {
+    if (args[0] == "2" && args[1] == "Data2") {
       return [Data[1]];
     }
-    if (args[1] == "Header2" && args[2] == "Data4") {
+    if (args[0] == "Header2" && args[1] == "Data4") {
       return [Data[2]];
     }
-    if (args[1] == "3" && args[2] == "Data3") {
+    if (args[0] == "3" && args[1] == "Data3") {
       return [Data[1], Data[2]];
     }
   }

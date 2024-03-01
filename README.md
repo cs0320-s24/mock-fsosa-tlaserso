@@ -14,6 +14,8 @@ There are no bugs that we know of.
 
 # Tests
 
+Felix wrote our testing class to verify the functionality of the front end. There are 66 tests. There are no unit tests because there was no need for them. The only functions that might need them are the mocked back end functions and those results were verified in the e2e testing.
+
 # How to
 
 Running the server, pressing the log in button allows the entry of commands. Load_File "path" stores the input path as the filepath, View prints the entire contents of the file at the path, if it exists, as an html table, Mode switches the output mode, and Search "column" "query" performs the search function. We only have a few mocked searches, which are viewable in mockedBackEnd. They simulate searching by column number, header name, and terms in multiple rows.
@@ -23,18 +25,3 @@ Running the server, pressing the log in button allows the entry of commands. Loa
 We did not collaborate beyond each other.
 
 _(state all of your sources of collaboration past your project partner. Please refer to the course's collaboration policy for any further questions.)_
-
-User story 1:
-Shared state between inputs and history to keep track of mode, handler in inputs reads command line and changes boolean value if command is mode. History reads boolean and prints based on value.
-User story 2:
-Handler in inputs, create mockJson.ts that mocks data, store path as variable.
-User Story 3:
-Write handler for view.
-User Story 4:
-Write handler for search that uses the loaded file path and outputs
-User story 5:
-Copy log in button. (done)
-User Story 6:
-use the interface to make it so that commands can be added
-user story 7:
-comment code and have a clear readme.
